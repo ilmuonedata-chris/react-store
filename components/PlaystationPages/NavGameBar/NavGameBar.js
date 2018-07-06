@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import { connect } from 'react-redux';
 
 class NavGameBar extends Component {
   render() {
+    const currentURL = this.props.navigationReducer.location;
+
     return (
       <div className="navbar-wrapper">
-        <Navbar collapseOnSelect className="custom-nav">
+        <Navbar collapseOnSelect className={currentURL === '/'? 'custom-nav opacity': 'custom-nav'}>
           <Navbar.Header>
             <Navbar.Brand>
               <a href="/">
@@ -35,7 +38,7 @@ class NavGameBar extends Component {
                 SEARCH
                 <FontAwesome name="search" className="right-arrow"/>
               </NavItem>
-              <NavItem eventKey={2} href="#">
+              <NavItem eventKey={2} href="/ps/cart">
                 CART
                 <FontAwesome name="shopping-bag" className="right-arrow" />
               </NavItem>
@@ -53,4 +56,8 @@ class NavGameBar extends Component {
   }
 }
 
-export default NavGameBar;
+const mapStateToProps = (state) => ({
+  navigationReducer: state.navigationReducer,
+});
+
+export default connect(mapStateToProps, {})(NavGameBar);

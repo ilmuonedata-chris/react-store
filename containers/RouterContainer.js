@@ -6,7 +6,8 @@ import TravelNav from '../NavigationPath/TravelNav';
 import CheckoutPath from '../NavigationPath/CheckoutPath';
 import PSCheckoutPath from '../NavigationPath/PSCheckoutPath';
 import Cart from '../components/PlaystationPages/Cart/Cart';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setLocation } from '../actions/navigation'
 
 class RouterContainer extends Component {
 
@@ -21,8 +22,8 @@ class RouterContainer extends Component {
   }
 
   handleLocationChange = (location) => {
-    // Do something with the location
-    console.log('location', location);
+    // Send location to redux store, used by NavGameBar.js
+    this.props.setLocation(location.pathname);
   }
 
   render() {
@@ -37,4 +38,13 @@ class RouterContainer extends Component {
     );
   }
 }
-export default withRouter(RouterContainer);
+
+const mapStateToProps = (state) => ({
+  navigationReducer: state.navigationReducer,
+});
+
+const mapDispatchToProps = ({
+  setLocation: setLocation,
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RouterContainer));
